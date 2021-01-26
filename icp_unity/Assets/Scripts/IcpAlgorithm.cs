@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// using alglib;
+
 // using CenterSpace.NMath.Core;
 // using CenterSpace.NMath.Matrix;
 
@@ -22,10 +24,14 @@ public class IcpAlgorithm : MonoBehaviour
 
         // rotation matrix
         // H = np.dot(AA.T, BB)
-        Matrix4x4 H = AA.transpose * BB;
-        // var svd = new DoubleSVDecomp(H);
         // U, S, Vt = np.linalg.svd(H)
         // R = np.dot(Vt.T, U.T)
+
+        Matrix4x4 H = AA.transpose * BB;
+        double[] W = new double[4];
+        double[,] U = new double[4,4];
+        double[,] Vt = new double[1,4];
+        // bool a = alglib.svd.rmatrixsvd(H, 4, 4, 1, 1, 2, W, U, Vt);
 
         // # special reflection case
         // if np.linalg.det(R) < 0:

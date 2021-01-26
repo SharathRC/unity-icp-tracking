@@ -21,9 +21,9 @@ class CalcTransformServicer(icp_pb2_grpc.CalcTransformServicer):
         B = clouds[0]
         vals = []
         A, B = self.msg2np(A, B)
-        print(A)
-        print(B)
-        print("--------------------------------------------------")
+        # print(A)
+        # print(B)
+        # print("--------------------------------------------------")
         T, distances, iterations = icp.icp(B, A, tolerance=0.000001)
         msg = self.info2msg(T)
         return msg
