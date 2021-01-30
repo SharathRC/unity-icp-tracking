@@ -6,6 +6,9 @@ using UnityEngine;
 
 // using CenterSpace.NMath.Core;
 // using CenterSpace.NMath.Matrix;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
 public class IcpAlgorithm : MonoBehaviour
 {
@@ -28,10 +31,18 @@ public class IcpAlgorithm : MonoBehaviour
         // R = np.dot(Vt.T, U.T)
 
         Matrix4x4 H = AA.transpose * BB;
-        double[] W = new double[4];
-        double[,] U = new double[4,4];
-        double[,] Vt = new double[1,4];
-        // bool a = alglib.svd.rmatrixsvd(H, 4, 4, 1, 1, 2, W, U, Vt);
+
+        Matrix<double> new_mat = DenseMatrix.OfArray(new double[,] {
+                                                                {H[0,0], H[0,1], H[0,2], H[0,3]},
+                                                                {H[1,0], H[1,1], H[1,2], H[1,3]},
+                                                                {H[2,0], H[2,1], H[2,2], H[2,3]},
+                                                                {H[3,0], H[3,1], H[3,2], H[3,3]}   });
+        
+        var svd = new_mat.Svd(true);
+
+        var U = svd.U;
+        var S = svd.W;
+        var Vt = svd.VT;
 
         // # special reflection case
         // if np.linalg.det(R) < 0:
